@@ -1,0 +1,47 @@
+Circuit: * C:\Users\soumi\Desktop\Sem 4\EW\Audio Amplifier\Audio Amplifier\LTSpice\Final_Schematic.asc
+
+Direct Newton iteration failed to find .op point.  (Use ".option noopiter" to skip.)
+Starting Gmin stepping
+Gmin = 10
+vernier = 0.5
+vernier = 0.25
+vernier = 0.125
+Gmin = 5.5165
+vernier = 0.0625
+vernier = 0.03125
+vernier = 0.015625
+vernier = 0.0078125
+Gmin = 5.49501
+vernier = 0.00390625
+vernier = 0.00195313
+vernier = 0.000976563
+vernier = 0.000488281
+Gmin = 5.49836
+Gmin = 0
+Gmin stepping failed
+
+Starting source stepping with srcstepmethod=0
+Source Step = 3.0303%
+Source Step = 33.3333%
+Source Step = 63.6364%
+Source Step = 93.9394%
+Source stepping succeeded in finding the operating point.
+
+
+Date: Tue Mar 05 02:25:27 2024
+Total elapsed time: 0.307 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 5272
+traniter = 3516
+tranpoints = 1512
+accept = 1297
+rejected = 215
+matrix size = 82
+fillins = 238
+solver = Normal
+Matrix Compiler1:     906 opcodes  2.7/[0.8]/0.8
+Matrix Compiler2: 11.56 KB object code size  0.9/0.7/[0.6]
+

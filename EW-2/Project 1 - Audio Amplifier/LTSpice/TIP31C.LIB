@@ -1,0 +1,50 @@
+******
+* Spice Model
+* Item: TIP31C
+* Date: 8/11/10
+* Revision History: A
+* ==========================================================
+* This model was developed by: 
+* Central Semiconductor Corp.
+* 145 Adams Avenue
+* Hauppauge, NY 11788
+*
+* These models are subject to change without notice.
+* Users may not directly or indirectly re-sell or 
+* re-distribute this model. This model may not 
+* be modified, or altered without the consent of Central Semiconductor Corp. 
+*
+* For more information on this model contact
+* Central Semiconductor Corp. at:
+* (631) 435-1110 or Engineering@centralsemi.com
+* http://www.centralsemi.com
+* ==========================================================
+******
+*SRC=TIP31C;TIP31C;BJTs NPN; Si;100.0V  3.00A  3MHz   Central Semi Central Semi
+.MODEL TIP31C  NPN (
++ IS=599.45E-15
++ BF=293.26
++ VAF=100
++ IKF=1.1282
++ ISE=115.04E-12
++ NE=1.6712
++ BR=.47484
++ VAR=100
++ IKR=10.010E-3
++ ISC=1.9741E-12
++ NC=2.2358
++ NK=.66617
++ RB=.94535
++ RC=.17134
++ CJE=127.09E-12
++ VJE=.61862
++ MJE=.38312
++ CJC=73.799E-12
++ VJC=.35
++ MJC=.34523
++ TF=24.699E-9
++ XTF=31.211
++ VTF=64.741
++ ITF=39.954 
++ TR=10.000E-9 )
+******

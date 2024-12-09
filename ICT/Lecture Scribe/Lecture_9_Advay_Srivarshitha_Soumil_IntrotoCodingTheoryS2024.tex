@@ -1,0 +1,215 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{comment}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyvrb}
+\usepackage{wasysym}
+\usepackage{algorithm}
+\usepackage[colorlinks=true, urlcolor=blue, linkcolor=red]{hyperref}
+\usepackage[noend]{algpseudocode}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}[section]
+
+\parindent0in
+\pagestyle{plain}
+\thispagestyle{plain}
+
+
+%% UPDATE MACRO DEFINITIONS %%
+\newcommand{\assignment}{Lecture \#9}
+\newcommand{\duedate}{05.02.2024}
+
+\begin{document}
+
+\textbf{IIIT Hyderabad}\hfill\\[0.01in]
+\textbf{-}\hfill\textbf{Scribed By: Advay Gupta (2022111033)}\\[0.01in]
+\textbf{-}\hfill\textbf{Srivarshitha Medarametla (2022102030)}\\[0.01in]
+\textbf{-}\hfill\textbf{Soumil Gupta (20220102035)}\\[0.01in]
+\textbf{Intro To Coding Theory (EC5.205)}\hfill\textbf{\assignment}\\[0.01in]
+\textbf{Instructor: Dr.\ Prasad Krishnan}\hfill\textbf{\duedate}\\
+\smallskip\hrule\bigskip
+
+
+%%% Start writing and defining sections and subsections here
+
+\section{About Singleton Bound}
+If $\mathcal{C}$ is a linear code with block length $n$, dimension $k$ and minimum distance $d$, then the singleton bound implies:
+$$d \leq n-k+1$$
+It is important to note that the singleton bound is true even for non-linear codes, but may have a different way of representation than the one mentioned above. 
+
+\section{Recap of Finite Fields}
+
+In order to define Reed-Solomon codes, we have to move our focus away from $\mathbb{F}_{2}$ and consider fields of a higher size. Recall that a finite field is a field that contains a finite number of elements. We have previously described the field $\mathbb{F}_{n}$ as having the following properties:
+
+\begin{enumerate}
+  \item Addition$\pmod{n}$.
+  \item Multiplication$\pmod{n}$.
+  \item Subtraction is addition with the additive inverse of the number.
+  \item Division is multiplication with the multiplicative inverse of the number.
+\end{enumerate}
+
+As a recap, we define the multiplicative inverse of a element $b \in \mathbb{F}$ as a element $c \in \mathbb{F}$ s.t. $c \cdot b = b \cdot c = 1$, where $1$ is the multiplicative identity. \\
+
+We have previously seen that for fields $\mathbb{F}_{2}$ and $\mathbb{F}_{3}$, all elements have a additive inverse and all the elements except $0$ have a multiplicative inverse.\\
+
+\section{Expanding the notion of Finite Fields}
+
+Consider $\mathbb{Z}_{n}$, $n \in \text{Primes}$. This is a set containing the elements $\{0, 1, ..., n-1\}$ and the addition and multiplication is defined over $\pmod{n}$. If you take any two elements $a, b \in \mathbb{Z}_{n}$ and add or multiply them, the result will be an integer that belongs to the set $\mathbb{Z}_{n}$. Thus, this set is closed under $+, \cdot \pmod{n}$.\\
+
+For the sake of convenience, we do not always mention $+, \cdot \pmod{n}$, we shall write $+, \cdot$ only. It is understood that the addition and multiplication operations are defined over $\pmod{n}$.\\
+
+Let us now show that $\mathbb{Z}_{n}$, $n \in \text{Primes}$ forms a finite field. For that, we have to prove that all elements of $\mathbb{Z}_{n}$ have a additive inverse and all except $0$ have a multiplicative inverse.\\
+
+\textbf{Additive Inverse:} The additive inverse of any $a \in \mathbb{Z}_{n}$ is $n-a \pmod{n}$ because $a + (n-a) = n \pmod{n} = 0$. We denote the additive inverse of $a$ by $-a$, where $-a \in \mathbb{Z}_{n}$\\
+
+\textbf{Multiplicative Inverse:} As an example, consider $\mathbb{Z}_{5} = \{0, 1, 2, 3, 4\}$. Let us verify whether all \textbf{non-zero elements} in $\mathbb{Z}_{5}$ have a multiplicative inverse or not.
+
+\begin{itemize}
+  \item $1$ is its own multiplicative inverse because $1 \cdot 1 = 1$.
+  \item $3$ is the multiplicative inverse of $2$ because $3 \cdot 2 \pmod{5} = 1$.
+  \item Conversely, $2$ is the multiplicative inverse of $3$ because $2 \cdot 3 \pmod{5} = 1$.
+  \item $4$ is its own multiplicative inverse because $4 \cdot 4 \pmod{5} = 1$.
+\end{itemize}
+
+Thus, we have showed that multiplicative inverse property holds true for $\mathbb{Z}_{5}$. But how do we prove this for any element belonging to any $\mathbb{Z}_{n}$, $n \in \text{Primes}$?\\
+
+To prove this, we shall make use of the \href{https://en.wikipedia.org/wiki/Fermat%27s_little_theorem}{Fermat's little theorem}. Although we will not prove this theorem in class.\\
+
+\begin{theorem}
+    Fermat's little theorem states that let $a \in \mathbb{Z}$, and $p \in \text{primes}$, then $$a^{p} \pmod{p} = a$$
+\end{theorem}
+
+
+\begin{proof}
+We will use this theorem to find the multiplicative inverse of any $a \in \mathbb{Z}_{n} \backslash \{0\}, n \in$ primes. In particular if we have $a \in \mathbb{Z}_{n} \backslash \{0\}$, then: $$\boxed{a^{p-1} \pmod{p} = 1} \; , \; \text{directly from the Fermat's little theorem.}$$ 
+
+Consider the element $b \in \mathbb{Z}$, where $b = a^{n-2} \pmod{n}$ and $n$ is a prime number. Now, $$\boxed{a \cdot b = (a \pmod{n})(a^{n-2} \pmod{n}) = a^{n-1} \pmod{n} = 1} \; , \; \text{from Fermat's little theorem.}$$
+$$(\because (x \pmod{n})(y \pmod{n}) = (x \cdot y) \pmod{n}$$
+\end{proof}
+
+Thus, we have $a \cdot b = 1$. This implies that the multiplicative inverse of any $a \in \mathbb{Z}_{n} \backslash \{0\}, \; n \in$ primes is $b = a^{n-2} \pmod{n}$. With that, we have proved the multiplicative inverse property of the finite field. We shall conveniently skip over the proofs of other smaller trivial properties required to show $\mathbb{Z}_{n}$, $n \in \text{primes}$ is a finite field, and conclude that it is indeed a valid Finite Field.\\
+
+Another thing to note is that since there are infinite number of prime numbers, naturally there are also infinite number of such Finite Fields.
+
+
+\begin{theorem}
+ For any composite number \( n \), prove that the set of integers modulo \( n \), denoted as \( \mathbb{Z}_n \), is not a finite field.
+\end{theorem}
+
+\begin{proof}
+Let us prove this theorem by contradiction. Assume that  \( \mathbb{Z}_n \) is a finite field. Since $n$ is a composite number we can write it as a combination of two non zero numbers (a and b) i.e. 
+$n = a \cdot b$, where $1 \leq a, b < n$, and $a, b \in \mathbb{Z}_n$\\
+
+Upon taking $\pmod{n}$ on both sides we get:
+\[ n \pmod{n} = (a \pmod{n})(b \pmod{n}) \]
+Since $n \pmod{n} = 0$, we get the following :
+\[a \cdot b = 0\]
+ Since $\mathbb{Z}_n$
+ and $a \in \mathbb{Z}_n$ is a finite field, its inverse exists. Let $a^{-1}$ be its multiplicative inverse. Upon multiplying $a^{-1}$ to both sides of the above equation, we get:
+ \[a \cdot (a^{-1}) \cdot b = 0 \cdot (a^{-1})\]
+\[\Rightarrow b = 0\] 
+This leads to a contradiction with our initial assumption that $a$ and $b$ are non-zero numbers. This is because of our assumption that $\mathbb{Z}_n$ is a finite field.
+Therefore, $\mathbb{Z}_n$ is not a a finite field if $n$ is not a prime.
+
+\end{proof}
+
+\section{General Facts}
+\begin{itemize}
+\item $\mathbb{Z}_n$, when $n$ is a composite number is a ring. All rings are fields but all fields are not rings. Fields have both additive and multiplicative inverses for all its elements whereas rings have additive inverses for all elements but some of their elements do not have a multiplicative inverse.
+\item There exists a finite field with $p^{m}$ elements for any prime and any integer $m \leq 1$.
+\begin{itemize}
+\item For $m = 1$, the finite field $\mathbb{F}_p$ is exactly equal to the set $\mathbb{Z}_p$.
+
+\item For $m > 1$, $\mathbb{F}_(p^m) \neq \mathbb{Z}_(p^m)$.
+This is because $p^{m}$ is a composite number and we showed in the above theorem that $\mathbb{Z}_(p^{m})$ is not a finite field.\newline
+For example, let $ p = 2$ and $m = 3$ then $p^{m} = 8$, field $\mathbb{F}_8$ containing 8 elements exists but is not equal to $\mathbb{Z}_8$.
+\end{itemize}
+There are no finite fields that contain elements which cannot be expressed in the form $p^{m}$.
+
+\end{itemize}
+
+\section{Polynomials over field $\mathbb{F}$ in $x$}
+\subsection{Definition}
+Any expression of the form:
+\[a_{0} + a_{1}x + a_{2}x^{2} + ... + a_{n}x^{n} \]
+is a polynomial of degree $n$ over a field $\mathbb{F}$ if $a_{i} \in \mathbb{F}$ $ \forall i \in \{0,1,...,n\}.$\\
+
+For example, $3x^{2} + 2$ is a polynomial over $\mathbb{F}_{5}$, but not over $\mathbb{F}_{2}$
+
+\begin{itemize}
+    \item  $a_{i}x^{i}$ is called a monomial. 
+    \item  Polynomials over $ \mathbb{R} $ in variable $x$ are represented by $ \mathbb{R}[X] $
+    \item Degree of a polynomial is $i_{max}$ where $a_{i} \neq 0$ 
+\end{itemize}
+
+\subsection{Number of Polynomials in $ \mathbb{F}_{2} $}
+
+For some  $s \geq 0$, we have:
+\begin{itemize}
+    \item Number of polynomials with degree $s$ is equal to $2^{s}$
+    \item Number of polynomials with degree at most $s$ is equal to $2^{s+1}$
+\end{itemize}
+    
+Let $\mathbf{S}$ be set of all polynomials with degree $\leq s$. $\mathbf{S}$ is closed under addition.\\
+
+Addition for $s=5$:
+\[\mathbf{A} =  x^{5} + x^{2} + 1\]
+\[\mathbf{B} =  x^{3} + x^{2} + x\]
+
+A,B $\in \mathbf{S} $
+
+\[\mathbf{A}  + \mathbf{B}\ = x^{5} + x^{3} + x^{2} + x^{2} + x + 1 \]
+\[= x^{5} + x^{3}\ + x + 1 \in \mathbf{S} \]
+
+\[\mathbf{A}  \cdot \mathbf{B}\ = (x^{5} + x^{2} + 1) * (x^{3} + x^{2} + x)\]
+\[= (x^{8} + x^{7} + x^{6}) + (x^{5} + x^{4} + x^{3}) + (x^{3} + x^{2} + x^{1})\]
+\[x^{8} + x^{7} + x^{6}+ x^{5} + x^{4} + x^{2} + x^{1} 
+\notin \mathbf{S} \]
+\[(\because \text{degree} (\text{A} \cdot \text{B}) = 8 > s)\]
+
+\section{Reed-Solomon Code}
+Reed-Solomon Codes satisfy Singleton Bound with equality $\forall k,n$ where $1 \leq k \leq n.$\\
+
+
+Let $q=p^{a} \geq n$ (We choose $p,a$ in such a way that $p^{a} \geq n $).\\
+
+For $m$ representing the message vector $m \in \mathbb{F}_{q}^{k}$, we define:
+\[ G_{RS(n,k)} = \begin{bmatrix}
+1 & 1 & . & . & . & 1 \\
+\alpha_{1} & \alpha_{2} & . & . & . & \alpha_{n}\\
+\alpha_{1}^{2} & \alpha_{2}^{2} & . & . & . & \alpha_{n}^{2} \\
+. & . & . & . & . & . \\
+. & . & . & . & . & . \\
+. & . & . & . & . & . \\
+\alpha_{1}^{k-1} & \alpha_{2}^{k-1} & . & . & . & \alpha_{n}^{k-1} \\
+\end{bmatrix}
+\]
+
+$$\boxed{c =mG_{RS(n,k)}}$$
+
+Observe that,
+\[m = (m_{0} , m_{1}, ... , m_{k-1})\]
+
+\[mG = [m_{0} + m_{1}\alpha_{1} +m_{2}\alpha_{1}^{2}+ . .  +m_{k-1}\alpha_{1}^{k-1}, m_{0} + m_{1}\alpha_{2} +m_{2}\alpha_{2}^{2}+ . .  +m_{k-1}\alpha_{2}^{k-1}, ... , m_{0} + m_{1}\alpha_{n} +m_{2}\alpha_{n}^{2}+ . .  +m_{k-1}\alpha_{n}^{k-1} ] \]
+
+\[=m(\alpha_{1}), m(\alpha_{2}),..., m(\alpha_{n}) \in \mathbb{F}_{q}^{k} \] 
+where $m(\alpha_{i}) = m(x) |_{x = \alpha_{i} }$ and $m(x)= m_{0} + m_{1}x +m_{2}x^{2}+ . . . +m_{k-1}x^{k-1}$\\
+
+This shows that encoding in Reed-Solomon codes is essentially the evaluation of polynomial $m(x)$ at $\alpha_{1}, \alpha_{2},... ,\alpha_{n}$\\
+
+Also, since $m_{i} , \alpha_{i} \in \mathbb{F}_{q} \rightarrow mG \in \mathbb{F}_{q}^{n}$
+
+
+\begin{thebibliography}{1}
+\bibitem{1}
+Class Notes
+\end{thebibliography}
+
+\end{document}  
