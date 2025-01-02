@@ -1,0 +1,4 @@
+// Reference for 1.txt
+irmovq $0x100, %rbx
+irmovq $0x200, %dx
+addq %rdx, %rbx
